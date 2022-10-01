@@ -36,10 +36,6 @@ export const Sidebar = ({
     }
   }, [])
 
-  const logToAnalytics = useCallback((): void => {
-    log('search-dropdown-enter', results);
-  }, []);
-
   return (
     <div className={styles['sidebar']}>
       <div className={styles['sidebar__content']}>
@@ -60,7 +56,7 @@ export const Sidebar = ({
             className={`${styles['search__dropdown']} ${
               showMenu ? styles['search__dropdown--active'] : undefined
             }`}
-            onMouseEnter={logToAnalytics}
+            onMouseEnter={() => log('search-dropdown-enter', results)}
           >
             {loading ? (
               <p>Loading ...</p>
