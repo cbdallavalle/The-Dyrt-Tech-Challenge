@@ -21,6 +21,16 @@ export type Result = {
   photos_count: number,
 }
 
+export type Campground = {
+  id: string,
+  type: string
+  links: {
+    self: string
+  }
+  attributes: any
+  relationships: any
+}
+
 const searchResults: Result[] = [
   {
     _index: 'campgrounds_production_20210723113738837',
