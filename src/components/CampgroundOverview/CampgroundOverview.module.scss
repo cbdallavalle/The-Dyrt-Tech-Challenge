@@ -6,9 +6,77 @@
 }
 
 .overview__content {
+  position: relative;
+  display: flex;
+    flex-direction: column;
   background-color: $cNOffWhite;
   border-radius: 6px;
   width: 100%;
   height: 100%;
   padding: 1rem;
+}
+
+
+.overview__header {
+  font-size: 1.5rem;
+  font-weight: bold;
+}
+
+.overview--warning-text {
+  position: absolute;
+  top: 1rem;
+  right: 1rem;
+  font-size: 1rem;
+  color: $cWine;
+  font-style: italic;
+}
+
+.overview__article {
+  position: relative;
+  width: 100%;
+  height: fit-content;
+  margin-top: 1rem;
+  padding: 1rem 1.5rem;
+  border: 2px solid $cStone;
+  border-radius: 12px;
+  h3 {
+    position: absolute;
+    top: -14px;
+    left: 14px;
+    padding: 0 4px;
+    background-color: $cNOffWhite;
+    color: $cStone;
+    font-size: 1rem;
+    font-weight: bold;
+    font-style: italic;
+  }
+}
+
+.overview--location-box {
+  display: flex;
+  align-items: flex-end;
+  img {
+    height: 24px;
+    margin-right: 6px;
+  }
+}
+
+.overview--long-box {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+}
+
+.overview--short-box {
+  display: flex;
+  flex-direction: column;
+  h4 {
+    font-size: 1rem;
+    font-weight: bold;
+  }
+  p {
+    font-size: 0.9rem;
+    padding-left: 2px;
+    margin-left: 4px;
+  }
 }

@@ -1,5 +1,7 @@
 import React, { useEffect, useState, useCallback } from 'react';
-import {Campground} from '../../data/searchResults';
+import {Campground, campgroundDetail} from '../../data/searchResults';
+import { capitalizeEveryWord } from '../../utils/stringFormatter';
+import pin from '../../assets/pin.png'
 
 import styles from './CampgroundOverview.module.scss';
 
@@ -12,7 +14,7 @@ type CampgroundResponse = {
 }
 
 const CampgroundOverview = ({ selectedCampgroundId }:CampgroundOverviewProps) => {
-  const [campground, setCampground] = useState<Campground | null>(null)
+  const [campground, setCampground] = useState<Campground | null>(campgroundDetail)
 
   useEffect(():void => {
     if (selectedCampgroundId) {
@@ -31,11 +33,40 @@ const CampgroundOverview = ({ selectedCampgroundId }:CampgroundOverviewProps) =>
     }
   }, [selectedCampgroundId])
 
+  const permanentlyClosed = campground?.attributes['permanently-closed']
+  const locationInformation = campground?.attributes.address ?? `${campground?.attributes.latitude}, ${campground?.attributes.longitude}`
+  const accessTypes: Array<string> | [] = campground?.attributes['access-types'] ?? []
+  const accommodationTypes: Array<string> | [] = campground?.attributes['accommodation-types'] ?? []
+
   return (
     <div className={styles['overview']}>
-      <div className={styles['overview__content']}>
-        <h2>{`Display Content About ${campground?.attributes.name}`}</h2>
-      </div>
+      <section className={styles['overview__content']}>
+          <h2 className={styles['overview__header']}>
+            {campground?.attributes.name}
+          </h2>
+          <div className={styles['overview--location-box']}>
+              <img src={pin} alt='Pin icon' />
+              <p>{locationInformation}</p>
+          </div>
+        {true && <p className={styles['overview--warning-text']}>Permanently Closed</p>}
+        <article className={styles['overview__article']}>
+          <h3>General Information</h3>
+          <div className={styles['overview--long-box']}>
+            <div className={styles['overview--short-box']}>
+              <h4>Access Types</h4>
+              {accessTypes.map(type => <p key={type}>{capitalizeEveryWord(type)}</p>)}
+            </div>
+            <div className={styles['overview--short-box']}>
+              <h4>Accommodations</h4>
+              {accommodationTypes.map(type => <p key={type}>{capitalizeEveryWord(type)}</p>)}
+            </div>
+            <div className={styles['overview--short-box']}>
+              <h4>Number of Sites</h4>
+              <p>{campground?.attributes['number-of-sites'] || 'N/A'}</p>
+            </div>
+          </div>
+        </article>
+      </section>
     </div>
   );
 };
