@@ -1,46 +1,35 @@
 import React, { useCallback, useEffect, useState } from 'react';
 import searchResults, {Result} from '../../data/searchResults';
 import { log } from '../../utils/logToAnalytics';
+import useDebounce from '../../services/debounce';
 
 import styles from './Sidebar.module.scss';
 
 type SidebarProps = {
   setSelectedCampgroundId: Function
 }
-asdf
+
 export const Sidebar = ({
   setSelectedCampgroundId
 }: SidebarProps) => {
-  const [results, setResults] = useState<Result[]>([]);
-  const [query, setQuery] = useState<string>('');
-
   const [showMenu, setShowMenu] = useState<boolean>(false);
   const [loading, setLoading] = useState<boolean>(false);
-  
-  const [result, setResult] = useState<Result | null>(null);
+
+  const [results, setResults] = useState<Result[]>([]);
+  const [query, setQuery] = useState<string>('');
+  const debouncedSearchQuery = useDebounce<string>(query)
 
   useEffect(() => {
-    if (result) {
-      setSelectedCampgroundId(result.id);
-    }
-  }, [result]);
+    searchQuery(debouncedSearchQuery)
+  }, [debouncedSearchQuery])
 
-  useEffect(() => {
-    if (query) {
-      /*
-        TODO load results from https://staging.thedyrt.com/api/v5/autocomplete/campgrounds with
-        the query parameter `q`
-      */
-      setLoading(true);
-
-      setTimeout(() => {
-        setResults(
-          searchResults.filter((result) => result.name.includes(query))
-        );
-        setLoading(false);
-      }, 500);
-    }
-  }, [query]);
+  const searchQuery = useCallback((query: string) => {
+    setLoading(true);
+    setResults(
+      searchResults.filter((result) => result.name.includes(query))
+    );
+    setLoading(false);
+  }, [])
 
   const logToAnalytics = useCallback(() => {
     log('search-dropdown-enter', results);
@@ -53,10 +42,9 @@ export const Sidebar = ({
           <div className={styles['search__input-container']}>
             <input
               className={styles['search__input']}
+              value={query}
               placeholder="Where would you like to camp?"
-              onChange={(e) => {
-                setQuery(e.target.value);
-              }}
+              onChange={(e: React.ChangeEvent<HTMLInputElement>) => setQuery(e.target.value)}
               onClick={() => {
                 setShowMenu(!showMenu);
               }}
@@ -77,7 +65,7 @@ export const Sidebar = ({
                   key={index}
                   className={styles['search__dropdown__item']}
                   onClick={() => {
-                    setResult(result);
+                    setSelectedCampgroundId(result.id);
                   }}
                 >
                   <p>{result.name}</p>
