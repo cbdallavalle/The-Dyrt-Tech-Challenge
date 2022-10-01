@@ -7,17 +7,11 @@ import styles from './Content.module.scss';
 
 const Content = () => {
   const [selectedCampgroundId, setSelectedCampgroundId] = useState<number | null>(null);
-  const [results, setResults] = useState<Result[]>([]);
-  const [query, setQuery] = useState<string>('');
 
   return (
     <div className={styles['content']}>
       <Sidebar
         setSelectedCampgroundId={setSelectedCampgroundId}
-        results={results}
-        setResults={setResults}
-        query={query}
-        setQuery={setQuery}
       />
       <CampgroundOverview selectedCampgroundId={selectedCampgroundId} />
     </div>

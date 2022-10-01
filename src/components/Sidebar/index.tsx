@@ -6,21 +6,17 @@ import styles from './Sidebar.module.scss';
 
 type SidebarProps = {
   setSelectedCampgroundId: Function
-  results: Result[]
-  setResults: Function
-  query: string
-  setQuery: Function
 }
-
+asdf
 export const Sidebar = ({
-  setSelectedCampgroundId,
-  results,
-  setResults,
-  query,
-  setQuery,
+  setSelectedCampgroundId
 }: SidebarProps) => {
+  const [results, setResults] = useState<Result[]>([]);
+  const [query, setQuery] = useState<string>('');
+
   const [showMenu, setShowMenu] = useState<boolean>(false);
   const [loading, setLoading] = useState<boolean>(false);
+  
   const [result, setResult] = useState<Result | null>(null);
 
   useEffect(() => {
