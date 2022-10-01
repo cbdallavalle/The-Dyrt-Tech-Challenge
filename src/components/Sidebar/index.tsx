@@ -1,5 +1,5 @@
 import React, { useCallback, useEffect, useState } from 'react';
-import searchResults, {Result} from '../../data/searchResults';
+import { Result } from '../../data/searchResults';
 import { log } from '../../utils/logToAnalytics';
 import useDebounce from '../../services/debounce';
 
@@ -19,19 +19,24 @@ export const Sidebar = ({
   const [query, setQuery] = useState<string>('');
   const debouncedSearchQuery = useDebounce<string>(query)
 
-  useEffect(() => {
-    searchQuery(debouncedSearchQuery)
+  useEffect(():void => {
+    fetchSearchResults(debouncedSearchQuery)
   }, [debouncedSearchQuery])
 
-  const searchQuery = useCallback((query: string) => {
-    setLoading(true);
-    setResults(
-      searchResults.filter((result) => result.name.includes(query))
-    );
-    setLoading(false);
+  const fetchSearchResults = useCallback(async (query: string): Promise<void> => {
+    try {
+      setLoading(true);
+      const response: Response = await fetch(`https://staging.thedyrt.com/api/v5/autocomplete/campgrounds?q=${query}`);
+      const foundCampsites: Result[] = await response.json();
+      setResults(foundCampsites);
+      setLoading(false);
+    }
+    catch (error) {
+      console.log(error);
+    }
   }, [])
 
-  const logToAnalytics = useCallback(() => {
+  const logToAnalytics = useCallback((): void => {
     log('search-dropdown-enter', results);
   }, []);
 
