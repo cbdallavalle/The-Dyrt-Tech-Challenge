@@ -63,7 +63,7 @@ export const Sidebar = ({
             onMouseEnter={() => log('search-dropdown-enter', results)}
           >
             { loading && <p>Loading ...</p>}
-            { error && <p>{error}</p> }
+            { error && <p>Error: {error}</p> }
             { !loading && !error &&
               results.map((result, index) => (
                 <div

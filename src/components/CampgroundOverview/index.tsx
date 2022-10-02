@@ -13,36 +13,54 @@ type CampgroundResponse = {
 }
 
 const CampgroundOverview = ({ selectedCampgroundId }:CampgroundOverviewProps) => {
-  const [campground, setCampground] = useState<Campground | null>(null)
+  const [campground, setCampground] = useState<Campground | null>(null);
+  const [loading, setLoading] = useState<boolean>(false);
+  const [error, setError] = useState<string>('');
 
   useEffect(():void => {
     if (selectedCampgroundId) {
-      fetchCampgroundDetails(selectedCampgroundId)
+      fetchCampgroundDetails(selectedCampgroundId);
     }
-  }, [selectedCampgroundId])
+  }, [selectedCampgroundId]);
 
   const fetchCampgroundDetails = useCallback(async (id: number): Promise<void> => {
     try {
+      setError('');
+      setLoading(true);
       const response: Response = await fetch(`https://thedyrt.com/api/v5/campgrounds/${id}`);
       const campgroundDetails: CampgroundResponse = await response.json();
-      setCampground(campgroundDetails?.data)
+      setCampground(campgroundDetails?.data);
+      setTimeout(() => setLoading(false), 200);
     }
-    catch (error) {
-      console.log(error)
+    catch (error: any) {
+      if (error instanceof Error) {
+        setError(error.message);
+      }
     }
-  }, [selectedCampgroundId])
+  }, [selectedCampgroundId]);
 
-  const permanentlyClosed = campground?.attributes['permanently-closed']
-  const locationInformation = campground?.attributes.address ?? `${campground?.attributes.latitude}, ${campground?.attributes.longitude}`
-  const accessTypes: Array<string> | [] = campground?.attributes['access-types'] ?? []
-  const accommodationTypes: Array<string> | [] = campground?.attributes['accommodation-types'] ?? []
-  const campgroundImage = campground?.attributes["photo-url"]
-  const phoneNumber = campground?.attributes["phone-number"]
+  const permanentlyClosed = campground?.attributes['permanently-closed'];
+  const locationInformation = campground?.attributes.address ?? `${campground?.attributes.latitude}, ${campground?.attributes.longitude}`;
+  const accessTypes: Array<string> | [] = campground?.attributes['access-types'] ?? [];
+  const accommodationTypes: Array<string> | [] = campground?.attributes['accommodation-types'] ?? [];
+  const campgroundImage = campground?.attributes["photo-url"];
+  const phoneNumber = campground?.attributes["phone-number"];
+
+  const loadingState = <div className={styles['overview__information']}><p>Loading...</p></div>
+  const errorState = <div className={styles['overview__information']}><p >Encounted an Error: {error}</p></div>
+  const emptyState = (
+    <div className={styles['overview__information']}>
+      <p>Select a campground to view details.</p>
+    </div>
+  )
 
   return (
     <div className={styles['overview']}>
       <section className={styles['overview__content']}>
-      { campground &&
+      { loading && loadingState}
+      { error && errorState}
+      { !loading && !error && !campground && emptyState}
+      { !loading && !error && campground &&
         <>
           <div className={styles['overview__information']}>
             <h2 className={styles['overview__header']}>
@@ -76,14 +94,6 @@ const CampgroundOverview = ({ selectedCampgroundId }:CampgroundOverviewProps) =>
             {campgroundImage && <img src={campgroundImage} alt='Image of campground' />}
           </div>
         </>
-      }
-      {
-        !campground &&
-        <div className={styles['overview__information']}>
-          <h2 className={styles['overview__header']}>
-            Select a campground to view details.
-          </h2>
-        </div>
       }
       </section>
     </div>
