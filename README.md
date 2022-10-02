@@ -24,11 +24,12 @@ You just started working for a new agency. You have to take over a project for a
 1. Added Typescript.
 2. For all asynchronous actions, added loading and error states.
 3. Implemented a copied debounce hook on search for a more smooth user experience. 
+4. Testing suite of critical functionality.
 
 ### Future next steps:
 
-1. Add testing for all components
-2. Init eslint & clean code
+1. Add testing for all components and fix act errors.
+2. Init eslint & clean code.
 
 ## Screenshot
 <img width="948" alt="Screen Shot 2022-10-02 at 1 38 03 PM" src="https://user-images.githubusercontent.com/28467245/193472991-714a526b-00f8-4a58-9f11-e22a891e3028.png">

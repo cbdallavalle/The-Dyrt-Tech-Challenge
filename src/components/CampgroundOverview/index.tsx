@@ -43,8 +43,8 @@ const CampgroundOverview = ({ selectedCampgroundId }:CampgroundOverviewProps) =>
   const locationInformation = campground?.attributes.address ?? `${campground?.attributes.latitude}, ${campground?.attributes.longitude}`;
   const accessTypes: Array<string> | [] = campground?.attributes['access-types'] ?? [];
   const accommodationTypes: Array<string> | [] = campground?.attributes['accommodation-types'] ?? [];
-  const campgroundImage = campground?.attributes["photo-url"];
-  const phoneNumber = campground?.attributes["phone-number"];
+  const campgroundImage: string | null = campground?.attributes["photo-url"];
+  const phoneNumber: string | null = campground?.attributes["phone-number"];
 
   const loadingState = <div className={styles['overview__information']}><p>Loading...</p></div>
   const errorState = <div className={styles['overview__information']}><p >Encounted an Error: {error}</p></div>

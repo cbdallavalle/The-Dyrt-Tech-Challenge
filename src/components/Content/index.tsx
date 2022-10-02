@@ -1,7 +1,6 @@
 import React, { useState } from 'react';
 import CampgroundOverview from '../CampgroundOverview';
-import {Result} from '../../data/searchResults'
-import { Sidebar } from '../Sidebar';
+import Sidebar from '../Sidebar';
 
 import styles from './Content.module.scss';
 

@@ -9,7 +9,7 @@ type SidebarProps = {
   setSelectedCampgroundId: Function
 }
 
-export const Sidebar = ({
+const Sidebar = ({
   setSelectedCampgroundId
 }: SidebarProps) => {
   const [showMenu, setShowMenu] = useState<boolean>(false);
@@ -62,7 +62,7 @@ export const Sidebar = ({
             }`}
             onMouseEnter={() => log('search-dropdown-enter', results)}
           >
-            { loading && <p>Loading ...</p>}
+            { loading && <p>Loading...</p> }
             { error && <p>Error: {error}</p> }
             { !loading && !error &&
               results.map((result, index) => (
@@ -84,3 +84,5 @@ export const Sidebar = ({
     </div>
   );
 };
+
+export default Sidebar;
