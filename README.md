@@ -6,7 +6,7 @@ You just started working for a new agency. You have to take over a project for a
 
 "The Dirt" wants a single page app where you can search for a campground, select that campground, and view some basic information about the campground. They are a very new company and going to pilfer the data from their direct competitor "The Dyrt".
 
-## Requirements
+## Completed Requirements
 
 1. Data is loaded from The Dyrt's autocomplete endpoint as a user types a query into the search input.
 2. Each time a user's mouse enters the dropdown menu an analytics event is logged with an updated list of the results.
@@ -28,4 +28,7 @@ You just started working for a new agency. You have to take over a project for a
 ### Future next steps:
 
 1. Add testing for all components
-2. Init eslint & clean code# The-Dyrt-Tech-Challenge
+2. Init eslint & clean code
+
+## Screenshot
+<img width="948" alt="Screen Shot 2022-10-02 at 1 38 03 PM" src="https://user-images.githubusercontent.com/28467245/193472991-714a526b-00f8-4a58-9f11-e22a891e3028.png">
