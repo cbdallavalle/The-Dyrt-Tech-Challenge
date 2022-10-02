@@ -13,7 +13,8 @@ export const Sidebar = ({
   setSelectedCampgroundId
 }: SidebarProps) => {
   const [showMenu, setShowMenu] = useState<boolean>(false);
-  const [loading, setLoading] = useState<boolean>(false);
+  const [loading, setLoading] = useState<boolean>(true);
+  const [error, setError] = useState<string>('');
 
   const [results, setResults] = useState<Result[]>([]);
   const [query, setQuery] = useState<string>('');
@@ -25,14 +26,17 @@ export const Sidebar = ({
 
   const fetchSearchResults = useCallback(async (query: string): Promise<void> => {
     try {
+      setError('');
       setLoading(true);
       const response: Response = await fetch(`https://staging.thedyrt.com/api/v5/autocomplete/campgrounds?q=${query}`);
       const foundCampsites: Result[] = await response.json();
       setResults(foundCampsites);
       setLoading(false);
     }
-    catch (error) {
-      console.log(error);
+    catch (error: any) {
+      if (error instanceof Error) {
+        setError(error.message);
+      }
     }
   }, [])
 
@@ -58,21 +62,22 @@ export const Sidebar = ({
             }`}
             onMouseEnter={() => log('search-dropdown-enter', results)}
           >
-            {loading ? (
-              <p>Loading ...</p>
-            ) : (
+            { loading && <p>Loading ...</p>}
+            { error && <p>{error}</p> }
+            { !loading && !error &&
               results.map((result, index) => (
                 <div
                   key={index}
                   className={styles['search__dropdown__item']}
                   onClick={() => {
                     setSelectedCampgroundId(result.id);
+                    setShowMenu(!showMenu);
                   }}
                 >
                   <p>{result.name}</p>
                 </div>
               ))
-            )}
+            }
           </div>
         </div>
       </div>
