@@ -12,12 +12,20 @@ You just started working for a new agency. You have to take over a project for a
 2. Each time a user's mouse enters the dropdown menu an analytics event is logged with an updated list of the results.
 3. When a user selects a campground from the dropdown menu, the campground is loaded and some basic information is displayed.
 
-### Extra Credit
+### Installation
 
-1. Let a user navigate the dropdown with the keyboard.
-2. Limit unneeded re-renders.
-3. Make the app responsive.
+1. Clone the repo
+2. Ensure the [Yarn Package Manager](https://yarnpkg.com/getting-started) is installed globally
+3. Run `yarn install`
+4. Run `yarn start`
 
-## On The Real
+### Extra Credit to look for
 
-The way things stand now there are some pretty glaring bugs in the app and a handful of places that could use some optimization. We want to see how you approach buggy code and what things you really care about. There is no set design for requirement three so use your creativity.
+1. Added Typescript.
+2. For all asynchronous actions, added loading and error states.
+3. Implemented a copied debounce hook on search for a more smooth user experience. 
+
+### Future next steps:
+
+1. Add testing for all components
+2. Init eslint & clean code# The-Dyrt-Tech-Challenge
