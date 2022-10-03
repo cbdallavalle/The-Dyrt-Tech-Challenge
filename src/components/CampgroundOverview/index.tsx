@@ -6,11 +6,11 @@ import styles from './CampgroundOverview.module.scss';
 
 type CampgroundOverviewProps = {
   selectedCampgroundId: number | null
-}
+};
 
 type CampgroundResponse = {
   data: Campground
-}
+};
 
 const CampgroundOverview = ({ selectedCampgroundId }:CampgroundOverviewProps) => {
   const [campground, setCampground] = useState<Campground | null>(null);
@@ -46,13 +46,13 @@ const CampgroundOverview = ({ selectedCampgroundId }:CampgroundOverviewProps) =>
   const campgroundImage: string | null = campground?.attributes["photo-url"];
   const phoneNumber: string | null = campground?.attributes["phone-number"];
 
-  const loadingState = <div className={styles['overview__information']}><p>Loading...</p></div>
-  const errorState = <div className={styles['overview__information']}><p >Encounted an Error: {error}</p></div>
+  const loadingState = <div className={styles['overview__information']}><p>Loading...</p></div>;
+  const errorState = <div className={styles['overview__information']}><p >Encounted an Error: {error}</p></div>;
   const emptyState = (
     <div className={styles['overview__information']}>
       <p>Select a campground to view details.</p>
     </div>
-  )
+  );
 
   return (
     <div className={styles['overview']}>

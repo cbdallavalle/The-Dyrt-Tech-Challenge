@@ -51,7 +51,8 @@
 
 .overview__sidebar {
   box-sizing: border-box;
-  width: 124px;
+  min-width: 124px;
+  max-width: 40%;
   height: 100%;
   background-color: $cClay;
   border-left: 4px solid $cClay;

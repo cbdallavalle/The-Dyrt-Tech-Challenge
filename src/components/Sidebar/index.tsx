@@ -7,7 +7,7 @@ import styles from './Sidebar.module.scss';
 
 type SidebarProps = {
   setSelectedCampgroundId: Function
-}
+};
 
 const Sidebar = ({
   setSelectedCampgroundId
@@ -18,11 +18,11 @@ const Sidebar = ({
 
   const [results, setResults] = useState<Result[]>([]);
   const [query, setQuery] = useState<string>('');
-  const debouncedSearchQuery = useDebounce<string>(query)
+  const debouncedSearchQuery = useDebounce<string>(query);
 
   useEffect(():void => {
-    fetchSearchResults(debouncedSearchQuery)
-  }, [debouncedSearchQuery])
+    fetchSearchResults(debouncedSearchQuery);
+  }, [debouncedSearchQuery]);
 
   const fetchSearchResults = useCallback(async (query: string): Promise<void> => {
     try {
@@ -36,9 +36,9 @@ const Sidebar = ({
     catch (error: any) {
       if (error instanceof Error) {
         setError(error.message);
-      }
-    }
-  }, [])
+      };
+    };
+  }, []);
 
   return (
     <div className={styles['sidebar']}>
