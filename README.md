@@ -28,7 +28,7 @@ You just started working for a new agency. You have to take over a project for a
 
 ### Future next steps:
 
-1. Add testing for all components and fix act errors.
+1. Add testing for all components.
 2. Init eslint & clean code.
 
 ## Screenshot

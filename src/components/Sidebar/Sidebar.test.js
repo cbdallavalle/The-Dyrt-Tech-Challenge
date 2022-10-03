@@ -1,6 +1,6 @@
-import {render, screen, fireEvent, waitFor, act} from '@testing-library/react'
-import Sidebar from '.'
-import searchResuls from '../../data/searchResults'
+import {render, screen, fireEvent, waitFor, act} from '@testing-library/react';
+import Sidebar from '.';
+import searchResuls from '../../data/searchResults';
 
 let setSelectedCampgroundId;
 
@@ -9,56 +9,55 @@ beforeEach(() => {
 
   jest.spyOn(global, 'fetch').mockResolvedValue({
     json: jest.fn().mockResolvedValue([searchResuls[0]])
-  })
+  });
+  
+  jest.useFakeTimers();
 });
 
 afterEach(() => {
   jest.restoreAllMocks();
+  jest.useRealTimers();
 });
 
-test('loads and displays empty state', () => {
+test('loads and displays empty state', async () => {
   render(<Sidebar setSelectedCampgroundId={setSelectedCampgroundId}/>);
 
-  expect(screen.getByPlaceholderText('Where would you like to camp?'));
-})
+  const input = await waitFor(() => screen.getByPlaceholderText('Where would you like to camp?'));
+  expect(input).toBeDefined();
+});
 
-test('displays a loading message searching', async () => {
+
+test('searching displays a loading message and then the search results', async () => {
   render(<Sidebar setSelectedCampgroundId={setSelectedCampgroundId}/>);
 
   const queryInput = screen.getByPlaceholderText('Where would you like to camp?');
-  fireEvent.mouseEnter(queryInput)
-  fireEvent.change(queryInput, {target: {value: 'Creek'}})
+  fireEvent.mouseEnter(queryInput);
+  act(() => {
+    fireEvent.change(queryInput, {target: {value: 'Creek'}});
+    jest.advanceTimersByTime(1000);
+  });
 
   expect(screen.getByText('Loading...')).toBeDefined();
-})
-
-
-test('displays results on search', async () => {
-  render(<Sidebar setSelectedCampgroundId={setSelectedCampgroundId}/>);
-
-  const queryInput = screen.getByPlaceholderText('Where would you like to camp?');
-  fireEvent.mouseEnter(queryInput)
-  act(() => {
-    fireEvent.change(queryInput, {target: {value: 'Creek'}})
-  })
 
   await waitFor(() => expect(screen.getByText('Eagle Creek')).toBeDefined());
-})
+});
 
 
 test('calls setSelectedCampgroundId when campground selected from search dropdown', async () => {
   render(<Sidebar setSelectedCampgroundId={setSelectedCampgroundId}/>);
 
   const queryInput = screen.getByPlaceholderText('Where would you like to camp?');
-  fireEvent.mouseEnter(queryInput)
+  fireEvent.mouseEnter(queryInput);
   act(() => {
-    fireEvent.change(queryInput, {target: {value: 'Creek'}})
-  })
-
+    fireEvent.change(queryInput, {target: {value: 'Creek'}});
+    jest.advanceTimersByTime(1000);
+  });
 
   const option = await waitFor(() => screen.getByText('Eagle Creek'));
 
-  fireEvent.click(option)
+  act(() => {
+    fireEvent.click(option);
+  });
 
-  expect(setSelectedCampgroundId).toHaveBeenCalled()
-})
+  expect(setSelectedCampgroundId).toHaveBeenCalled();
+});
